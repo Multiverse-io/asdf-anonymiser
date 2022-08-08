@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for anonymiser.
 GH_REPO="https://github.com/Multiverse-io/anonymiser"
 TOOL_NAME="anonymiser"
 TOOL_TEST="anonymiser --help"
@@ -31,8 +30,6 @@ list_github_tags() {
 }
 
 list_all_versions() {
-  # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-  # Change this function if anonymiser has other means of determining installable versions.
   list_github_tags
 }
 
@@ -41,8 +38,9 @@ download_release() {
   version="$1"
   filename="$2"
 
-  # TODO: Adapt the release URL convention for anonymiser
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  local release_arch="$(release_arch_version)"
+  url="$GH_REPO/releases/download/v${version}/$TOOL_NAME-$release_arch"
+  echo $url
 
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
@@ -59,9 +57,10 @@ install_version() {
 
   (
     mkdir -p "$install_path"
-    cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
+    cp -r "$ASDF_DOWNLOAD_PATH"/$TOOL_NAME "$install_path"
 
-    # TODO: Assert anonymiser executable exists.
+    chmod +x $install_path/$TOOL_NAME
+
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
@@ -71,4 +70,26 @@ install_version() {
     rm -rf "$install_path"
     fail "An error occurred while installing $TOOL_NAME $version."
   )
+}
+
+release_arch_version() {
+  OS="$(uname -s)" #Darwin / Linux
+  ARCHITECTURE="$(uname -m)" #x86_64 / arm64
+
+  if [[ $OS == "Darwin" ]] && [[ $ARCHITECTURE == "arm64" ]]; then
+    echo "aarch64-apple-darwin"
+
+  elif [[ $OS == "Darwin" ]] && [[ $ARCHITECTURE == "x86_64" ]]; then
+    echo "x86_64-apple-darwin"
+
+  elif [[ $OS == "Linux" ]] && [[ $ARCHITECTURE == "x86_64" ]]; then
+    DIST="$(cat /etc/os-release | awk -F= '$1=="NAME"{print $2}')"
+    if [[ $DIST == "Alpine Linux" ]]; then
+      echo "x86_64-unknown-linux-musl"
+    else
+      echo "x86_64-unknown-linux-gnu"
+    fi
+  else
+    fail "Unsupported OS... OS: $OS, Arch: $ARCHITECTURE"
+  fi
 }

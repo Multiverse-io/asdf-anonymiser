@@ -16,10 +16,7 @@
 
 # Dependencies
 
-**TODO: adapt this section**
-
 - `bash`, `curl`, `tar`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
 
 # Install
 
@@ -28,7 +25,7 @@ Plugin:
 ```shell
 asdf plugin add anonymiser
 # or
-asdf plugin add anonymiser https://github.com/danturn/asdf-anonymiser.git
+asdf plugin add anonymiser https://github.com/Multiverse-io/asdf-anonymiser.git
 ```
 
 anonymiser:
@@ -54,8 +51,8 @@ install & manage versions.
 
 Contributions of any kind welcome! See the [contributing guide](contributing.md).
 
-[Thanks goes to these contributors](https://github.com/danturn/asdf-anonymiser/graphs/contributors)!
+[Thanks goes to these contributors](https://github.com/Multiverse-io/asdf-anonymiser/graphs/contributors)!
 
 # License
 
-See [LICENSE](LICENSE) © [Daniel Turner](https://github.com/danturn/)
+See [LICENSE](LICENSE) © [Daniel Turner](https://github.com/Multiverse-io/)
