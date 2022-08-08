@@ -73,8 +73,8 @@ install_version() {
 }
 
 release_arch_version() {
-  OS="$(uname -s)" #Darwin / Linux
-  ARCHITECTURE="$(uname -m)" #x86_64 / arm64
+  OS="$(uname -s)"           #e.g. Darwin / Linux
+  ARCHITECTURE="$(uname -m)" #e.g. x86_64 / arm64
 
   if [[ $OS == "Darwin" ]] && [[ $ARCHITECTURE == "arm64" ]]; then
     echo "aarch64-apple-darwin"
