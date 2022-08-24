@@ -83,12 +83,8 @@ release_arch_version() {
     echo "x86_64-apple-darwin"
 
   elif [[ $OS == "Linux" ]] && [[ $ARCHITECTURE == "x86_64" ]]; then
-    DIST="$(cat /etc/os-release | awk -F= '$1=="NAME"{print $2}')"
-    if [[ $DIST == "Alpine Linux" ]]; then
-      echo "x86_64-unknown-linux-musl"
-    else
-      echo "x86_64-unknown-linux-gnu"
-    fi
+     echo "x86_64-unknown-linux-musl"
+
   else
     fail "Unsupported OS... OS: $OS, Arch: $ARCHITECTURE"
   fi
