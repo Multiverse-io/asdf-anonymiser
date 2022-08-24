@@ -23,8 +23,6 @@
 Plugin:
 
 ```shell
-asdf plugin add anonymiser
-# or
 asdf plugin add anonymiser https://github.com/Multiverse-io/asdf-anonymiser.git
 ```
 
