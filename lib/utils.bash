@@ -83,7 +83,7 @@ release_arch_version() {
     echo "x86_64-apple-darwin"
 
   elif [[ $OS == "Linux" ]] && [[ $ARCHITECTURE == "x86_64" ]]; then
-     echo "x86_64-unknown-linux-musl"
+    echo "x86_64-unknown-linux-musl"
 
   else
     fail "Unsupported OS... OS: $OS, Arch: $ARCHITECTURE"
